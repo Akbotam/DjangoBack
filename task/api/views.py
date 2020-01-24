@@ -13,6 +13,11 @@ def reviewer_list(request):
    json_reviewers = [rev.to_json() for rev in reviewers]
    return JsonResponse(json_reviewers, safe=False)
 
+def review_list(request):
+   reviews = Review.objects.all()
+   json_reviews = [re.to_json() for re in reviews]
+   return JsonResponse(json_reviews, safe=False)
+
 def company_detail(request, pk):
    try:
       company = Company.objects.get(id=pk)

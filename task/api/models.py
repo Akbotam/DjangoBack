@@ -43,7 +43,5 @@ class Review(models.Model):
             'id': self.id,
             'title': self.title,
             'summary': self.summary,
-            'publication date': self.publication_date,
-            'company': self.company,
-            'reviewer': self.reviewer
+            'publication date': self.publication_date
         }
