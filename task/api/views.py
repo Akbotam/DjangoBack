@@ -1,12 +1,22 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from datetime import datetime
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from api.models import Company, Review, Reviewer
 
+@csrf_exempt
 def company_list(request):
-   companies = Company.objects.all()
-   json_companies = [c.to_json() for c in companies]
-   return JsonResponse(json_companies, safe=False)
+   if request.method == 'GET':
+      companies = Company.objects.all()
+      json_companies = [c.to_json() for c in companies]
+      return JsonResponse(json_companies, safe=False)
+   elif request.method == 'POST':
+       data = json.loads(request.body)
+       company = Company()
+       company.name = data.get('name', '')
+       company.save()
+       return JsonResponse(company.to_json())
+   return JsonResponse({'error': 'bad request'})
+
 
 def reviewer_list(request):
    reviewers = Reviewer.objects.all()
@@ -18,13 +28,25 @@ def review_list(request):
    json_reviews = [re.to_json() for re in reviews]
    return JsonResponse(json_reviews, safe=False)
 
+@csrf_exempt
 def company_detail(request, pk):
    try:
       company = Company.objects.get(id=pk)
    except Company.DoesNotExist as e:
-         return JsonResponse({'error': str(e)}, safe=False)
+         return JsonResponse({'error': str(e)})
 
-   return JsonResponse(company.to_json())
+   if request.method == 'GET':
+      return JsonResponse(company.to_json())
+   elif request.method == 'PUT':
+      data = json.loads(request.body)
+      company.name = data.get('name', company.name)
+      company.save()
+      return JsonResponse(company.to_json())
+   elif request.method == 'DELETE':
+      company.delete()
+      return JsonResponse({})
+   return  JsonResponse({'error': 'bad request'})
+
 
 def company_reviews(request, pk):
    try:
