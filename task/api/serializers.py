@@ -17,13 +17,19 @@ class CompanySerializer(serializers.Serializer):
         instance.save()
         return instance
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email')
+
 class CompanySerializer2(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(required=True)
+    created_by = UserSerializer(read_only=True)
 
     class Meta:
         model = Company
-        fields = ('id', 'name')
+        fields = '__all__'
 
 class ReviewerSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
@@ -42,7 +48,4 @@ class ReviewSerializer(serializers.Serializer):
     company = CompanySerializer2()
     reviewer = ReviewerSerializer()
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email')
+

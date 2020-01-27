@@ -1,9 +1,20 @@
 from django.db import models
-from datetime import datetime
+from django.contrib.auth.models import User
 
+
+class CompanyManager(models.Manager):
+    def for_user(self, user):
+        return self.filter(created_by=user)
 
 class Company(models.Model):
     name = models.CharField(max_length=200)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=True)
+
+    objects = CompanyManager()
+
+    class Meta:
+        verbose_name = 'Company'
+        verbose_name_plural = 'Companies'
 
     def __str__(self):
         return '{}:{}'.format(self.id, self.name)

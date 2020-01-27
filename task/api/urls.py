@@ -17,5 +17,6 @@ urlpatterns = [
      path('companies/<int:pk>/', views.CompanyDetail.as_view()),
      path('users/', views.UserList.as_view()),
      path('login/', views.login),
+     path('logout/', views.logout),
      #path('companies/<int:pk>/reviews/', views.company_reviews)
 ]
