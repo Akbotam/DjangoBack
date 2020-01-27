@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Company, Reviewer
+from api.models import Company, Review
 from django.contrib.auth.models import User
 
 
@@ -31,21 +31,17 @@ class CompanySerializer2(serializers.ModelSerializer):
         model = Company
         fields = '__all__'
 
-class ReviewerSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(required=True)
-    email = serializers.EmailField(required=True)
 
-    class Meta:
-        model = Reviewer
-        fields = ('id', 'name', 'email')
-
-class ReviewSerializer(serializers.Serializer):
+class ReviewSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(required=True)
     summary = serializers.CharField(required=True)
-    publication_date = serializers.DateTimeField()
-    company = CompanySerializer2()
-    reviewer = ReviewerSerializer()
+    publication_date = serializers.DateTimeField(read_only=True)
+    company = CompanySerializer2(read_only=True)
+    created_by = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = '__all__'
 
 
