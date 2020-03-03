@@ -11,10 +11,10 @@ from api import views
 
 urlpatterns = [
      path('companies/', views.CompanyList.as_view()),
-     path('reviews/', views.ReviewList.as_view()),
+     path('reviews/', views.ReviewList.as_view(), name = 'review.views.ReviewList'),
      path('companies/<int:pk>/', views.CompanyDetail.as_view()),
      path('users/', views.UserList.as_view()),
      path('login/', views.login),
      path('logout/', views.logout),
-     #path('companies/<int:pk>/reviews/', views.company_reviews)
+     path('companies/<int:pk>/reviews/', views.company_reviews)
 ]

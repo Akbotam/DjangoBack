@@ -39,6 +39,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     publication_date = serializers.DateTimeField(read_only=True)
     company = CompanySerializer2(read_only=True)
     created_by = UserSerializer(read_only=True)
+    rating = serializers.IntegerField(required=True)
 
     class Meta:
         model = Review

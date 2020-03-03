@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from api.models import Company, Review, Reviewer
+from api.models import Company, Review
 from api.serializers import CompanySerializer, CompanySerializer2, ReviewSerializer
 
 @csrf_exempt
@@ -23,11 +23,6 @@ def company_list(request):
        #return JsonResponse(company.to_json())
    return JsonResponse({'error': 'bad request'})
 
-
-def reviewer_list(request):
-   reviewers = Reviewer.objects.all()
-   json_reviewers = [rev.to_json() for rev in reviewers]
-   return JsonResponse(json_reviewers, safe=False)
 
 def review_list(request):
    reviews = Review.objects.all()

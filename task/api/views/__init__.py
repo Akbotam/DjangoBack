@@ -3,5 +3,6 @@
 #from  .cbv import CompanyList, CompanyDetail
 from .generic_cbv import CompanyList, CompanyDetail, ReviewList
 from .auth import UserList, login, logout
+from .old_views import company_reviews
 
 

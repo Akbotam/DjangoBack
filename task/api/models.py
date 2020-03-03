@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class CompanyManager(models.Manager):
     def for_user(self, user):
@@ -17,7 +18,7 @@ class Company(models.Model):
     objects = CompanyManager()
 
     class Meta:
-        verbose_name = 'Company'
+        verbose_name = 'Co  mpany'
         verbose_name_plural = 'Companies'
 
     def __str__(self):
@@ -35,11 +36,14 @@ class Review(models.Model):
     publication_date = models.DateTimeField(default=None, null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, default=None, null=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=True)
+    rating = models.IntegerField(validators=[MinValueValidator(0),
+                                           MaxValueValidator(5)], default=None, null=True)
 
     objects = ReviewManager()
 
     def __str__(self):
-        return '{}:{}'.format(self.id, self.title)
+        #return '{} : {}'.format(self.id, self.title)
+        return self.title
 
     def to_json(self):
         return {

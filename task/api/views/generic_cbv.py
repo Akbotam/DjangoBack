@@ -1,6 +1,7 @@
 from api.models import Company, Review
 from api.serializers import CompanySerializer2, ReviewSerializer
 from rest_framework import generics
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 class CompanyList(generics.ListCreateAPIView):
